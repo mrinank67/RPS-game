@@ -18,7 +18,7 @@ function getComputerChoice(){
     return choice 
 }
 function getHumanChoice(){
-    let player=prompt("Enter your choice: ").toLowerCase();
+    let player=prompt("Enter your choice:").toLowerCase();
     return player
 }
 function playGame(){
@@ -29,6 +29,7 @@ function playGame(){
         let winner=0
         if (playerchoice==compchoice){
             console.log("The round is a tie.")
+            winner=3
         }
         else if (playerchoice=="rock" && compchoice=="paper"){
             console.log("Computer wins the round!")
@@ -60,9 +61,9 @@ function playGame(){
     }
 
     while(i<=5){
+        console.log("Round " + i + "/5")
         let humanSelection=getHumanChoice();
         let computerSelection=getComputerChoice();
-        console.log("Round " + i + "/5")
         let winner=playRound(humanSelection,computerSelection)
         if(winner==1){
             compscore+=1
@@ -70,6 +71,9 @@ function playGame(){
         }
         else if(winner==2){
             playerscore+=1
+            i+=1
+        }
+        else if (winner==3){
             i+=1
         }
         console.log("Player Score: " + playerscore)
@@ -80,6 +84,9 @@ function playGame(){
     }
     else if (compscore>playerscore){
         console.log("Computer wins the Game!")
+    }
+    else if(compscore==playerscore){
+        console.log("The Game is a tie!")
     }
 }
 console.log("LETS PLAY ROCK PAPER SCISSORS!")
