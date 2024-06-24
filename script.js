@@ -7,13 +7,13 @@ function getComputerChoice(){
     let x=getRandomInt(1,4)
     let choice=""
     if (x==1){
-        choice="Rock"
+        choice="rock"
     }
     else if (x==2){
-        choice="Paper"
+        choice="paper"
     }
     else if (x==3) {
-        choice="Scissors"
+        choice="scissors"
     }
     return choice 
 }
@@ -30,26 +30,26 @@ function playGame(){
         if (playerchoice==compchoice){
             console.log("The round is a tie.")
         }
-        else if (playerchoice=="rock" && compchoice=="Paper"){
+        else if (playerchoice=="rock" && compchoice=="paper"){
             console.log("Computer wins the round!")
             winner=1
         }
-        else if (playerchoice=="paper" && compchoice=="Rock"){
+        else if (playerchoice=="paper" && compchoice=="rock"){
             console.log("Player wins the round!")
         }
-        else if (playerchoice=="rock" && compchoice=="Scissors"){
+        else if (playerchoice=="rock" && compchoice=="scissors"){
             console.log("Player wins the round!")
             winner=2
         }
-        else if (playerchoice=="scissors" && compchoice=="Rock"){
+        else if (playerchoice=="scissors" && compchoice=="rock"){
             console.log("Computer wins the round!")
             winner=1
         }
-        else if (playerchoice=="paper" && compchoice=="Scissors"){
+        else if (playerchoice=="paper" && compchoice=="scissors"){
             console.log("Computer wins the round!")
             winner=1
         }
-        else if (playerchoice=="scissors" && compchoice=="Paper"){
+        else if (playerchoice=="scissors" && compchoice=="paper"){
             console.log("Player wins the round!")
             winner=2
         }
