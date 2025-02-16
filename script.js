@@ -1,93 +1,73 @@
-function getComputerChoice(){
-    function getRandomInt(min, max) {
-        const minCeiled = Math.ceil(min);
-        const maxFloored = Math.floor(max);
-        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); 
-    }
-    let x=getRandomInt(1,4)
-    let choice=""
-    if (x==1){
-        choice="rock"
-    }
-    else if (x==2){
-        choice="paper"
-    }
-    else if (x==3) {
-        choice="scissors"
-    }
-    return choice 
-}
-function getHumanChoice(){
-    let player=prompt("Enter your choice:").toLowerCase();
-    return player
-}
-function playGame(){
-    let compscore=0
-    let playerscore=0
-    let i=1
-    function playRound(playerchoice,compchoice){
-        let winner=0
-        if (playerchoice==compchoice){
-            console.log("The round is a tie.")
-            winner=3
-        }
-        else if (playerchoice=="rock" && compchoice=="paper"){
-            console.log("Computer wins the round!")
-            winner=1
-        }
-        else if (playerchoice=="paper" && compchoice=="rock"){
-            console.log("Player wins the round!")
-        }
-        else if (playerchoice=="rock" && compchoice=="scissors"){
-            console.log("Player wins the round!")
-            winner=2
-        }
-        else if (playerchoice=="scissors" && compchoice=="rock"){
-            console.log("Computer wins the round!")
-            winner=1
-        }
-        else if (playerchoice=="paper" && compchoice=="scissors"){
-            console.log("Computer wins the round!")
-            winner=1
-        }
-        else if (playerchoice=="scissors" && compchoice=="paper"){
-            console.log("Player wins the round!")
-            winner=2
-        }
-        else{
-            console.log("Please input a correct choice.")
-        }
-        return winner
-    }
+let playerscore = 0;
+        let compscore = 0;
+        let currentRound = 0;
+        const maxRounds = 5;
 
-    while(i<=5){
-        console.log("Round " + i + "/5")
-        let humanSelection=getHumanChoice();
-        let computerSelection=getComputerChoice();
-        let winner=playRound(humanSelection,computerSelection)
-        if(winner==1){
-            compscore+=1
-            i+=1
+        function getComputerChoice() {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomIndex = Math.floor(Math.random() * 3);
+            return choices[randomIndex];
         }
-        else if(winner==2){
-            playerscore+=1
-            i+=1
+
+        function updateScores() {
+            document.getElementById('playerScore').textContent = `Player: ${playerscore}`;
+            document.getElementById('computerScore').textContent = `Computer: ${compscore}`;
+            document.getElementById('roundCounter').textContent = `Round ${currentRound}/${maxRounds}`;
         }
-        else if (winner==3){
-            i+=1
+
+        function playRound(playerChoice) {
+            if (currentRound >= maxRounds) return;
+
+            const computerChoice = getComputerChoice();
+            let resultText = `Player chose ${playerChoice}, Computer chose ${computerChoice}. `;
+            let roundResult = '';
+
+            if (playerChoice === computerChoice) {
+                roundResult = "It's a tie!";
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                playerscore++;
+                roundResult = "Player wins the round!";
+            } else {
+                compscore++;
+                roundResult = "Computer wins the round!";
+            }
+
+            currentRound++;
+            document.getElementById('result').textContent = resultText + roundResult;
+            updateScores();
+
+            if (currentRound === maxRounds) {
+                let gameResult = '';
+                if (playerscore > compscore) {
+                    gameResult = "Player wins the game!";
+                } else if (compscore > playerscore) {
+                    gameResult = "Computer wins the game!";
+                } else {
+                    gameResult = "The game is a tie!";
+                }
+                document.getElementById('gameResult').textContent = gameResult;
+                
+                // Add reset button
+                const resetBtn = document.createElement('button');
+                resetBtn.textContent = 'Play Again';
+                resetBtn.onclick = () => {
+                    playerscore = 0;
+                    compscore = 0;
+                    currentRound = 0;
+                    updateScores();
+                    document.getElementById('gameResult').textContent = '';
+                    document.getElementById('result').textContent = '';
+                    resetBtn.remove();
+                };
+                document.querySelector('.container').appendChild(resetBtn);
+            }
         }
-        console.log("Player Score: " + playerscore)
-        console.log("Computer Score: " + compscore)
-    }
-    if (playerscore>compscore){
-        console.log("Player wins the Game!")
-    }
-    else if (compscore>playerscore){
-        console.log("Computer wins the Game!")
-    }
-    else if(compscore==playerscore){
-        console.log("The Game is a tie!")
-    }
-}
-console.log("LETS PLAY ROCK PAPER SCISSORS!")
-playGame()
+
+        // Event listeners for buttons
+        document.getElementById('rock').addEventListener('click', () => playRound('rock'));
+        document.getElementById('paper').addEventListener('click', () => playRound('paper'));
+        document.getElementById('scissors').addEventListener('click', () => playRound('scissors'));
